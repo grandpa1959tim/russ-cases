@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CasePainter">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAADt0lEQVR42u3d0VFjMQwFUNWQBmhpa9rqtqytAOJg+9mSzsz9ZYivDvIDMhCv15fIrxMqEIAEIAFIAGqUv3/+rQ1AuCAF0Gk03TAFNyQBlMBNVUnBDUkdAT05XZJKAbp2Wj0ZRR86Xm1fQNnHUJhRlKTjOAB91X56KHO6KFBuqx9DALSy0J4/BQVotkS/v7unhMhVnPcO3NZGKAujxIDoyd5PXN6O94xeXlRoBKNkgOipVF3cVgEluToMehjKAQidkpWGxWMVXQ2IntoNBz0MXQqIng6GwiOzx+pkgIz5lKE0gOjpYyjoYegiQPR0MxT0MHQFIHp6GgIIoAsA0dPWUNDD0ElA9DQ3tAuQgSUydAwQPQyFywugmamF9cPQAUD0MPR7QC4vF9kWQAbTcAkFPQzNjBIggB4ERA9DAMkhQPQwtB6QAVQ1tBiQ9WMJrQekeksorB+ZGXFYPzIz5bB+ZGbQAMkJQOp2iw0Bsn4A+nncYf3IzMQBkm2A3F8AvR16WD8yM3eAZA8g9xdAI6MP60dmpg+QbADk/gJoEEBYPzJjACABSK4C5AFIxhmE9SMzSwggAUgAEoAEIHrkQw8ACUACkAAkAAEkAAlAApAABJAAJAAJQNIXkBIZsoHEFSYACUACEEACkAAkAAlAAAlAApAAJAABJHOAGJKPJAAkAAlAApAA9P2HMUTPKCBLSF7+0LgAJLUAMeQBaBSQJQSQfzgn9wFiyP01CsgSAsi//Zb7ADHk/hoFZAkB9HbiAMnjgBhyf40CsoQA+vlDYodKabJ+AJL9gNxi7q8tgBiyfkYBWULWzxZADDVfPx8AsoSsny2AGOq8fj4DxBA9AMlRQAzRA5AcBcQQPbsAMZRdz0OALCHrZxYQQ/TsAsRQk8trFpAlZP3MAmKouZ6NgBgqf3mtAcRQZz1rADHUVs8yQAz11AMQQNcAYqihnsWAGOqmZz0ghlrp2QKIoT56dgFiqImeM4AYOqInGaC3h8GoRttR8lT0PNZzFD4bPQ80HOVPSE96QB6rC1carb5cLJ7cgBiq12FceH6MElUXiqAnHyCMyhQV91fTmdH9/YSO6MkNCKPUbUS61mozSldC5G2wkqS8p47sbWZnlP2wUabZXJLKnC7qFX2zpGLHSQBopvd7qs/++tMDmhzDkWHkerUtAC0ZzL4JXfvCANo4rZFxPvm50iVSfw/85HS5qQkor6QatdcBlEVSsbYLArpTUtWSKwM6jqlDsV0APUCqZ419AQlAApAAJJ3zH6h65yTfQNhJAAAAAElFTkSuQmCC">
+<title>CasePainter — Russian Grammar</title>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,600;1,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0e12; --sur:#18181f; --sur2:#22222e; --brd:rgba(255,255,255,.07);
+  --nom:#e05252; --acc:#5b8dee; --dat:#52c97a; --gen:#e6c84a; --ins:#e07d3a; --pre:#a06ee8;
+  --txt:#f2f2f8; --muted:#888899; --rad:10px; --tap:48px;
+  --fs:1; /* font scale: 1=normal, 1.2=large, 1.4=xlarge */
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--txt);font-family:'Spectral',Georgia,serif;min-height:100vh;padding-bottom:60px;}
+
+/* ── HEADER ── */
+header{padding:20px 20px 0;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:14px;}
+.logo{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;letter-spacing:-1px;}
+.logo span{color:var(--pre);}
+.tagline{font-size:12px;color:var(--muted);font-style:italic;}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--brd);padding:0 16px;overflow-x:auto;background:var(--sur);}
+.tab{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;padding:12px 16px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;text-transform:uppercase;}
+.tab:hover{color:var(--txt);}
+.tab.on{color:var(--txt);border-bottom-color:var(--pre);}
+
+/* ── PANELS ── */
+.pn{display:none;max-width:760px;margin:0 auto;padding:20px 16px;}
+.pn.on{display:block;}
+
+/* ── CASE PILLS ── */
+.case-controls{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;align-items:center;}
+.master-toggle{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:99px;border:1px solid var(--brd);background:var(--sur2);color:var(--muted);cursor:pointer;text-transform:uppercase;transition:all .2s;}
+.master-toggle:hover{color:var(--txt);}
+.divider{width:1px;height:24px;background:var(--brd);margin:0 2px;}
+.case-pill{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:5px 11px;border-radius:99px;border:1.5px solid transparent;cursor:pointer;transition:all .2s;opacity:.3;letter-spacing:.5px;user-select:none;}
+.case-pill.active{opacity:1;}
+.pill-NOM{border-color:var(--nom);color:var(--nom);background:rgba(224,82,82,.1);}
+.pill-ACC{border-color:var(--acc);color:var(--acc);background:rgba(91,141,238,.1);}
+.pill-DAT{border-color:var(--dat);color:var(--dat);background:rgba(82,201,122,.1);}
+.pill-GEN{border-color:var(--gen);color:var(--gen);background:rgba(230,200,74,.1);}
+.pill-INS{border-color:var(--ins);color:var(--ins);background:rgba(224,125,58,.1);}
+.pill-PRE{border-color:var(--pre);color:var(--pre);background:rgba(160,110,232,.1);}
+
+/* ── LEGEND ── */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#aaaacc;}
+.legend-dot{width:7px;height:7px;border-radius:50%;}
+
+/* ── SENTENCE BANK ── */
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:#7788aa;text-transform:uppercase;margin-bottom:8px;}
+.sentence-bank{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
+.bank-item{background:var(--sur);border:1px solid var(--brd);border-radius:var(--rad);padding:11px 14px;cursor:pointer;transition:all .15s;}
+.bank-item:hover{border-color:rgba(255,255,255,.15);background:var(--sur2);}
+.bank-item.selected{border-color:var(--pre);background:rgba(160,110,232,.08);}
+.bank-ru{font-size:16px;font-weight:700;color:#f2f2f8;margin-bottom:3px;}
+.bank-en{font-size:12px;color:#888899;font-style:italic;}
+.bank-cases{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px;}
+.bank-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;}
+
+/* ── INPUT ── */
+.input-section{margin-bottom:20px;}
+.api-row{display:flex;gap:8px;margin-bottom:8px;}
+.api-input{flex:1;background:var(--sur);border:1px solid var(--brd);border-radius:var(--rad);color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:12px;padding:9px 12px;outline:none;}
+.api-input::placeholder{color:var(--muted);}
+.save-key-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:0 12px;border:1px solid var(--brd);border-radius:var(--rad);background:var(--sur2);color:var(--txt);cursor:pointer;}
+.input-row{display:flex;gap:8px;}
+.ru-input{flex:1;background:var(--sur);border:1px solid var(--brd);border-radius:var(--rad);color:var(--txt);font-family:'Spectral',serif;font-size:15px;padding:11px 14px;outline:none;transition:border-color .2s;}
+.ru-input:focus{border-color:rgba(255,255,255,.2);}
+.ru-input::placeholder{color:var(--muted);font-style:italic;}
+.analyze-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:0 18px;border:none;border-radius:var(--rad);background:var(--pre);color:#fff;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.analyze-btn:hover{opacity:.85;}
+.analyze-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ── DISPLAY ── */
+.display{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:22px 18px;min-height:90px;margin-bottom:14px;}
+.display-placeholder{color:var(--muted);font-style:italic;font-size:14px;text-align:center;padding:16px 0;}
+.sentence-display{font-size:calc(clamp(18px,4.5vw,26px) * var(--fs));font-weight:700;line-height:1.9;letter-spacing:.2px;color:#f2f2f8;}
+.word-token{display:inline;cursor:pointer;border-radius:3px;padding:0 2px;transition:all .15s;}
+.word-token:hover{opacity:.75;}
+.word-token.NOM{color:var(--nom);}
+.word-token.ACC{color:var(--acc);}
+.word-token.DAT{color:var(--dat);}
+.word-token.GEN{color:var(--gen);}
+.word-token.INS{color:var(--ins);}
+.word-token.PRE{color:var(--pre);}
+.word-token.hidden{color:var(--txt);}
+.translation{margin-top:12px;font-size:14px;color:#aaaacc;font-style:italic;border-top:1px solid var(--brd);padding-top:10px;}
+
+/* ── LOADING ── */
+.loading{display:flex;align-items:center;gap:10px;color:var(--muted);font-style:italic;font-size:13px;padding:8px 0;}
+.dot-anim{display:flex;gap:4px;}
+.dot-anim span{width:5px;height:5px;border-radius:50%;background:var(--pre);animation:bounce .9s infinite;}
+.dot-anim span:nth-child(2){animation-delay:.15s;}
+.dot-anim span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-6px);opacity:1}}
+
+/* ── POPUP ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);}
+.popup-overlay.show{display:flex;}
+.popup{background:var(--sur);border:1px solid var(--brd);border-radius:16px;padding:22px;max-width:420px;width:100%;position:relative;animation:popIn .18s ease;}
+@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.popup-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;}
+.popup-word{font-size:26px;font-weight:600;margin-bottom:6px;}
+.popup-case-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:3px 11px;border-radius:99px;margin-bottom:12px;letter-spacing:1px;}
+.popup-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
+.popup-reason{font-size:14px;line-height:1.6;color:var(--txt);margin-bottom:12px;}
+.popup-stem{font-size:12px;color:var(--muted);font-style:italic;}
+
+/* ── CASE CHALLENGE ── */
+.challenge-card{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:24px 20px;margin-bottom:16px;}
+.challenge-sentence{font-size:calc(clamp(18px,4.5vw,26px) * var(--fs));font-weight:700;line-height:1.9;margin-bottom:16px;color:#f2f2f8;}
+.blank{display:inline-block;min-width:90px;border-bottom:2.5px solid var(--gen);color:transparent;background:rgba(230,200,74,.08);border-radius:3px;padding:0 8px;cursor:default;font-style:italic;}
+.blank.revealed{color:inherit;}
+.case-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.case-btn{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:13px 8px;border-radius:var(--rad);border:1.5px solid transparent;cursor:pointer;transition:all .2s;text-align:center;}
+.case-btn:hover{filter:brightness(1.2);}
+.case-btn.correct{animation:flash .4s ease;}
+.case-btn.wrong{opacity:.5;}
+@keyframes flash{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+.challenge-feedback{font-size:15px;line-height:1.6;color:#d0d0e0;min-height:40px;margin-bottom:12px;padding:10px 14px;border-radius:var(--rad);background:rgba(255,255,255,.04);}
+.score-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.score-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+.score-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--dat);}
+.weak-cases{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.weak-badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:3px 8px;border-radius:99px;border:1px solid;}
+.next-btn{width:100%;height:var(--tap);border:none;border-radius:var(--rad);background:var(--sur2);border:1px solid var(--brd);color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.next-btn:hover{background:rgba(255,255,255,.07);}
+
+/* ── BUILD-A-SENTENCE ── */
+.build-area{margin-bottom:20px;}
+.build-target{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:18px;min-height:70px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.drop-zone{flex:1;min-width:200px;min-height:44px;border:1.5px dashed var(--brd);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;font-style:italic;transition:border-color .2s;}
+.drop-zone.drag-over{border-color:var(--pre);background:rgba(160,110,232,.06);}
+.placed-word{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:grab;animation:slideIn .15s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.placed-word:active{cursor:grabbing;}
+.placed-ru{font-size:17px;font-weight:700;padding:8px 13px;border-radius:8px;border:1.5px solid var(--brd);color:#f2f2f8;}
+.placed-case-sel{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 6px;border-radius:99px;border:none;background:var(--sur2);color:var(--muted);cursor:pointer;outline:none;}
+.tile-pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:54px;padding:12px;background:var(--sur);border-radius:var(--rad);border:1px solid var(--brd);}
+.word-tile{font-size:16px;font-weight:700;padding:10px 16px;border-radius:var(--rad);background:var(--sur2);border:1.5px solid var(--brd);cursor:grab;transition:all .15s;user-select:none;}
+.word-tile:hover{border-color:rgba(255,255,255,.2);}
+.word-tile:active{cursor:grabbing;transform:scale(1.05);}
+.build-feedback{font-size:15px;line-height:1.6;min-height:36px;margin-bottom:12px;padding:10px 14px;border-radius:var(--rad);background:rgba(255,255,255,.04);color:#d0d0e0;}
+.build-btns{display:flex;gap:8px;}
+.build-btn{flex:1;height:var(--tap);border-radius:var(--rad);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;border:1px solid var(--brd);background:var(--sur2);color:var(--txt);transition:all .2s;}
+.build-btn.primary{background:var(--pre);border-color:var(--pre);color:#fff;}
+.build-btn:hover{filter:brightness(1.15);}
+.build-en-hint{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:12px;padding:10px 0;}
+
+/* ── CASE MAP ── */
+.map-container{background:var(--sur);border:1px solid var(--brd);border-radius:14px;padding:20px;margin-bottom:16px;overflow-x:auto;}
+.map-sentence{font-size:calc(clamp(15px,3.5vw,20px) * var(--fs));font-weight:600;line-height:1.8;margin-bottom:24px;text-align:center;}
+.map-svg-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+svg.case-map{display:block;margin:0 auto;overflow:visible;}
+.map-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+.map-info{background:rgba(255,255,255,.04);border-radius:var(--rad);padding:12px 14px;margin-top:12px;font-size:15px;line-height:1.6;color:#d0d0e0;min-height:44px;}
+.map-sentence-sel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.map-sent-btn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:6px 12px;border-radius:99px;border:1px solid var(--brd);background:var(--sur2);color:var(--muted);cursor:pointer;transition:all .2s;}
+.map-sent-btn.on{border-color:var(--pre);color:var(--pre);background:rgba(160,110,232,.1);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:8px 18px;border-radius:99px;font-family:'JetBrains Mono',monospace;font-size:11px;z-index:999;pointer-events:none;opacity:1;transition:opacity .3s;}
+/* Word span highlighting */
+.cp-ru-word{cursor:pointer;border-radius:3px;padding:0 2px;transition:background .1s;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;}
+.cp-ru-word:hover{opacity:.75;}
+.cp-en-word{display:inline;transition:all .12s;}
+/* highlighted state — color set dynamically via JS per case */
+.cp-ru-hl{border-radius:3px;padding:0 2px;}
+.cp-en-hl{font-weight:800;border-radius:2px;padding:0 1px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Case<span>Painter</span></div>
+  <div class="tagline">Russian grammar · 4 interactive modes</div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+    <button onclick="cycleFont()" id="fontBtn" style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:8px 16px;border-radius:99px;border:2px solid rgba(160,110,232,.5);background:rgba(160,110,232,.15);color:#b47eed;cursor:pointer;letter-spacing:.5px;min-width:52px;-webkit-tap-highlight-color:transparent;">A</button>
+  </div>
+</header>
+<!-- Speed control bar -->
+<div style="background:var(--sur);border-bottom:1px solid var(--brd);padding:8px 20px;display:flex;align-items:center;gap:10px;">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#888899;white-space:nowrap;">Speed</span>
+  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#555;">0.3</span>
+  <input type="range" id="spdSlider" min="0.3" max="1.2" step="0.05" value="0.75"
+    style="flex:1;max-width:200px;accent-color:var(--pre);cursor:pointer;height:4px;"
+    oninput="document.getElementById('spdVal').textContent=parseFloat(this.value).toFixed(2)">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#555;">1.2</span>
+  <span id="spdVal" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#b47eed;min-width:32px;font-weight:700;">0.75</span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab on" onclick="goTab('painter')">🎨 Painter</div>
+  <div class="tab" onclick="goTab('challenge')">🎯 Challenge</div>
+  <div class="tab" onclick="goTab('builder')">🔧 Builder</div>
+  <div class="tab" onclick="goTab('casemap')">🗺️ Case Map</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ PAINTER TAB -->
+<div id="pn-painter" class="pn on">
+
+  <div class="case-controls">
+    <button class="master-toggle" onclick="painterToggleAll()">Hide All</button>
+    <div class="divider"></div>
+    <button class="case-pill pill-NOM active" data-case="NOM" onclick="painterToggleCase(this)">NOM</button>
+    <button class="case-pill pill-ACC active" data-case="ACC" onclick="painterToggleCase(this)">ACC</button>
+    <button class="case-pill pill-DAT active" data-case="DAT" onclick="painterToggleCase(this)">DAT</button>
+    <button class="case-pill pill-GEN active" data-case="GEN" onclick="painterToggleCase(this)">GEN</button>
+    <button class="case-pill pill-INS active" data-case="INS" onclick="painterToggleCase(this)">INS</button>
+    <button class="case-pill pill-PRE active" data-case="PRE" onclick="painterToggleCase(this)">PRE</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--nom)"></div>Nominative</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--acc)"></div>Accusative</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--dat)"></div>Dative</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gen)"></div>Genitive</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ins)"></div>Instrumental</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--pre)"></div>Prepositional</div>
+  </div>
+
+  <div class="section-label">Sentence Bank — tap to load</div>
+  <div class="sentence-bank" id="painterBank"></div>
+
+  <div class="input-section">
+    <div class="section-label" style="margin-bottom:6px;">AI Analysis — enter any Russian sentence</div>
+    <div class="input-row" style="margin-bottom:8px;">
+      <input class="ru-input" id="customInput" placeholder="Введите русское предложение..." style="font-size:15px;">
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeCustom()">Analyze</button>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+      <input class="api-input" id="apiKey" type="password" placeholder="Anthropic API key (one-time setup)..." style="flex:1;">
+      <button class="save-key-btn" onclick="saveKey()">Save Key</button>
+    </div>
+    <div id="errorMsg" style="color:var(--nom);font-size:12px;margin-top:4px;font-style:italic;"></div>
+  </div>
+
+  <!-- display rendered inside bank item -->
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ CHALLENGE TAB -->
+<div id="pn-challenge" class="pn">
+
+  <div class="score-bar">
+    <div>
+      <div class="score-label">SCORE</div>
+      <div class="score-val" id="scoreVal">0 / 0</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="score-label">WEAK CASES</div>
+      <div class="weak-cases" id="weakCases"><span style="color:var(--muted);font-size:11px;font-style:italic;">none yet</span></div>
+    </div>
+    <button onclick="resetChallenge()" style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 12px;border-radius:99px;border:1px solid var(--brd);background:var(--sur2);color:var(--muted);cursor:pointer;">Reset</button>
+  </div>
+
+  <div class="challenge-card">
+    <div class="challenge-sentence" id="challengeSentence">Loading...</div>
+    <div class="challenge-feedback" id="challengeFeedback">Choose the correct case for the highlighted word.</div>
+    <div class="case-btns" id="caseBtns"></div>
+    <button class="next-btn" id="nextChallengeBtn" onclick="nextChallenge()" style="display:none;">Next →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ BUILDER TAB -->
+<div id="pn-builder" class="pn">
+  <div class="section-label">Build-a-Sentence — drag tiles into order, choose case endings</div>
+
+  <div class="map-sentence-sel" id="builderSentSel"></div>
+
+  <div class="build-en-hint" id="buildHint">Select a sentence above to begin</div>
+
+  <div class="section-label">Drop words here in correct order</div>
+  <div class="build-target" id="buildTarget">
+    <div class="drop-zone" id="dropZone">drag words here</div>
+  </div>
+
+  <div class="section-label">Word tiles</div>
+  <div class="tile-pool" id="tilePool"></div>
+
+  <div class="build-feedback" id="buildFeedback">Arrange the words in the correct order, then choose case endings and tap Check.</div>
+  <div class="build-btns">
+    <button class="build-btn" onclick="resetBuilder()">Reset</button>
+    <button class="build-btn primary" onclick="checkBuilder()">Check ✓</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ CASE MAP TAB -->
+<div id="pn-casemap" class="pn">
+  <div class="section-label">Select a sentence</div>
+  <div class="map-sentence-sel" id="mapSentSel"></div>
+
+  <div class="map-container">
+    <div class="map-sentence" id="mapSentence">Select a sentence above</div>
+    <div class="map-svg-wrap">
+      <svg class="case-map" id="mapSvg" width="700" height="200"></svg>
+    </div>
+    <div class="map-info" id="mapInfo">Tap any word or arc to see the grammatical relationship.</div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--nom)"></div>Nominative (subject)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--acc)"></div>Accusative (direct object)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--dat)"></div>Dative (indirect object)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gen)"></div>Genitive (possession/negation)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--ins)"></div>Instrumental (with/by)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--pre)"></div>Prepositional (location/topic)</div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+  <div class="popup">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-word" id="popWord"></div>
+    <div class="popup-case-badge" id="popBadge"></div>
+    <div class="popup-label">Case Name</div>
+    <div style="font-size:15px;font-weight:600;margin-bottom:10px;" id="popCaseName"></div>
+    <div class="popup-label">Why this case?</div>
+    <div class="popup-reason" id="popReason"></div>
+    <div class="popup-stem" id="popStem"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════ DATA
+const CASES = {
+  NOM:{name:'Nominative',  color:'#e05252',bg:'rgba(224,82,82,.25)',  desc:'The subject — who or what does the action.'},
+  ACC:{name:'Accusative',  color:'#5b8dee',bg:'rgba(91,141,238,.25)', desc:'The direct object — what receives the action.'},
+  DAT:{name:'Dative',      color:'#52c97a',bg:'rgba(82,201,122,.25)', desc:'The indirect object — to whom or for whom.'},
+  GEN:{name:'Genitive',    color:'#e6c84a',bg:'rgba(230,200,74,.25)', desc:'Possession, absence, or quantity.'},
+  INS:{name:'Instrumental',color:'#e07d3a',bg:'rgba(224,125,58,.25)', desc:'With, by means of, or as something.'},
+  PRE:{name:'Prepositional',color:'#a06ee8',bg:'rgba(160,110,232,.25)',desc:'Location or topic — used after о, в, на.'},
+};
+
+const SENTENCES = [
+  {
+    ru:'Мой старший брат дал младшей сестре интересную книгу.',
+    en:'My older brother gave his younger sister an interesting book.',
+    words:[
+      {w:'Мой',        case:'NOM',reason:'Possessive adjective agreeing with the subject брат',stem:'мой → мой'},
+      {w:'старший',    case:'NOM',reason:'Adjective modifying the Nominative subject брат',stem:'старший → старш-'},
+      {w:'брат',       case:'NOM',reason:'Subject — who performed the giving action',stem:'брат → брат-'},
+      {w:'дал',        case:null, reason:'Verb — verbs do not take grammatical case',stem:''},
+      {w:'младшей',    case:'DAT',reason:'Adjective agreeing with сестре in Dative',stem:'младший → младш-'},
+      {w:'сестре',     case:'DAT',reason:'Indirect object — to whom the book was given',stem:'сестра → сестр-'},
+      {w:'интересную', case:'ACC',reason:'Adjective agreeing with книгу in Accusative',stem:'интересный → интересн-'},
+      {w:'книгу',      case:'ACC',reason:'Direct object — the thing that was given',stem:'книга → книг-'},
+    ],
+    relations:[
+      {from:'брат',to:'книгу', label:'gave', case:'ACC', color:'var(--acc)'},
+      {from:'брат',to:'сестре',label:'to whom',case:'DAT',color:'var(--dat)'},
+    ]
+  },
+  {
+    ru:'Студент пишет письмо другу без ошибок.',
+    en:'The student writes a letter to a friend without mistakes.',
+    words:[
+      {w:'Студент',case:'NOM',reason:'Subject — who is writing',stem:'студент → студент-'},
+      {w:'пишет',  case:null, reason:'Verb — no case',stem:''},
+      {w:'письмо', case:'ACC',reason:'Direct object — what is being written',stem:'письмо → письм-'},
+      {w:'другу',  case:'DAT',reason:'Indirect object — to whom it is written',stem:'друг → друг-'},
+      {w:'без',    case:null, reason:'Preposition — governs Genitive',stem:''},
+      {w:'ошибок', case:'GEN',reason:'After без (without), Genitive plural is required',stem:'ошибка → ошиб-'},
+    ],
+    relations:[
+      {from:'Студент',to:'письмо',label:'writes',case:'ACC',color:'var(--acc)'},
+      {from:'Студент',to:'другу', label:'to',    case:'DAT',color:'var(--dat)'},
+      {from:'письмо', to:'ошибок',label:'without',case:'GEN',color:'var(--gen)'},
+    ]
+  },
+  {
+    ru:'Мама готовит суп с курицей на кухне.',
+    en:'Mom is making chicken soup in the kitchen.',
+    words:[
+      {w:'Мама',    case:'NOM',reason:'Subject — who is cooking',stem:'мама → мам-'},
+      {w:'готовит', case:null, reason:'Verb — no case',stem:''},
+      {w:'суп',     case:'ACC',reason:'Direct object — what is being prepared',stem:'суп → суп-'},
+      {w:'с',       case:null, reason:'Preposition — governs Instrumental',stem:''},
+      {w:'курицей', case:'INS',reason:'After с (with), Instrumental — the ingredient used',stem:'курица → куриц-'},
+      {w:'на',      case:null, reason:'Preposition — governs Prepositional for location',stem:''},
+      {w:'кухне',   case:'PRE',reason:'After на for location, Prepositional is used',stem:'кухня → кухн-'},
+    ],
+    relations:[
+      {from:'Мама',  to:'суп',    label:'cooks', case:'ACC',color:'var(--acc)'},
+      {from:'суп',   to:'курицей',label:'with',  case:'INS',color:'var(--ins)'},
+      {from:'Мама',  to:'кухне',  label:'in',    case:'PRE',color:'var(--pre)'},
+    ]
+  },
+  {
+    ru:'Книга учителя лежит на столе рядом с лампой.',
+    en:"The teacher's book lies on the table next to the lamp.",
+    words:[
+      {w:'Книга',    case:'NOM',reason:'Subject — the thing that lies on the table',stem:'книга → книг-'},
+      {w:'учителя',  case:'GEN',reason:'Genitive of possession — whose book',stem:'учитель → учител-'},
+      {w:'лежит',    case:null, reason:'Verb — no case',stem:''},
+      {w:'на',       case:null, reason:'Preposition — governs Prepositional for location',stem:''},
+      {w:'столе',    case:'PRE',reason:'Location — where the book lies',stem:'стол → стол-'},
+      {w:'рядом',    case:null, reason:'Adverb — no case',stem:''},
+      {w:'с',        case:null, reason:'Preposition — governs Instrumental',stem:''},
+      {w:'лампой',   case:'INS',reason:'After с (next to), Instrumental required',stem:'лампа → ламп-'},
+    ],
+    relations:[
+      {from:'Книга', to:'учителя',label:'belongs to',case:'GEN',color:'var(--gen)'},
+      {from:'Книга', to:'столе',  label:'on',        case:'PRE',color:'var(--pre)'},
+      {from:'Книга', to:'лампой', label:'next to',   case:'INS',color:'var(--ins)'},
+    ]
+  },
+  {
+    ru:'Врач говорит с пациентом о новом лекарстве.',
+    en:'The doctor speaks with the patient about a new medicine.',
+    words:[
+      {w:'Врач',       case:'NOM',reason:'Subject — who is speaking',stem:'врач → врач-'},
+      {w:'говорит',    case:null, reason:'Verb — no case',stem:''},
+      {w:'с',          case:null, reason:'Preposition — governs Instrumental',stem:''},
+      {w:'пациентом',  case:'INS',reason:'After с (with), Instrumental — the person spoken with',stem:'пациент → пациент-'},
+      {w:'о',          case:null, reason:'Preposition — governs Prepositional (about)',stem:''},
+      {w:'новом',      case:'PRE',reason:'Adjective agreeing with лекарстве in Prepositional',stem:'новый → нов-'},
+      {w:'лекарстве',  case:'PRE',reason:'After о (about), Prepositional required',stem:'лекарство → лекарств-'},
+    ],
+    relations:[
+      {from:'Врач',    to:'пациентом', label:'speaks with',case:'INS',color:'var(--ins)'},
+      {from:'Врач',    to:'лекарстве', label:'about',     case:'PRE',color:'var(--pre)'},
+    ]
+  },
+];
+
+// Build challenge questions from sentences
+const CHALLENGES = [];
+SENTENCES.forEach(s => {
+  s.words.forEach((w,i) => {
+    if(w.case) CHALLENGES.push({sentence:s, wordIdx:i});
+  });
+});
+// Shuffle
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+shuffle(CHALLENGES);
+
+// ═══════════════════════════════════════════════════════════════════ GLOBALS
+let painterToggles = new Set(['NOM','ACC','DAT','GEN','INS','PRE']);
+let painterAllOn = true;
+let painterWords = [];
+let painterTranslation = '';
+
+let challengeIdx = 0;
+let score = 0;
+let total = 0;
+let answered = false;
+let caseErrors = {}; // case -> error count
+
+let builderSentIdx = 0;
+let builderPlaced = []; // words placed so far
+let builderPool = [];   // words remaining in pool
+
+let mapSentIdx = 0;
+
+// ═══════════════════════════════════════════════════════════════════ INIT
+window.onload = function(){
+  applyFont(); // restore saved font size
+  const saved = localStorage.getItem('cp_api_key');
+  if(saved) document.getElementById('apiKey').value = saved;
+
+  buildPainterBank();
+  buildChallengeUI();
+  buildBuilderSentSel();
+  buildMapSentSel();
+  loadBuilder(0);
+  loadMap(0);
+
+  document.getElementById('customInput').addEventListener('keydown', e=>{
+    if(e.key==='Enter') analyzeCustom();
+  });
+};
+
+function goTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>{
+    el.classList.toggle('on',['painter','challenge','builder','casemap'][i]===t);
+  });
+  document.querySelectorAll('.pn').forEach(el=>el.classList.remove('on'));
+  document.getElementById('pn-'+t).classList.add('on');
+}
+
+function saveKey(){
+  const k = document.getElementById('apiKey').value.trim();
+  if(k){ localStorage.setItem('cp_api_key',k); showToast('Key saved ✓'); }
+}
+
+// ═══════════════════════════════════════════════════════════════════ PAINTER
+function buildPainterBank(){
+  const bank = document.getElementById('painterBank');
+  SENTENCES.forEach((s,i) => {
+    const cases = [...new Set(s.words.filter(w=>w.case).map(w=>w.case))];
+    const div = document.createElement('div');
+    div.className = 'bank-item';
+    div.innerHTML = `<div class="bank-ru">${s.ru}</div>
+      <div class="bank-en">${s.en}</div>
+      <div class="bank-cases">${cases.map(c=>`<span class="bank-badge" style="background:${CASES[c].bg};color:${CASES[c].color}">${CASES[c].name}</span>`).join('')}</div>`;
+    div.onclick = () => {
+      document.querySelectorAll('.bank-item').forEach(el=>el.classList.remove('selected'));
+      div.classList.add('selected');
+      loadPainter(s.words, s.en);
+      // Flash the bank item to confirm click registered
+      div.style.background = 'rgba(0,255,100,.15)';
+      setTimeout(()=>{ div.style.background=''; }, 400);
+      // Scroll display into view and speak
+      setTimeout(()=>{
+        const d = document.getElementById('painterDisplay');
+        if(d) d.scrollIntoView({behavior:'smooth', block:'nearest'});
+        speakSentence(s.words, s.en);
+      }, 250);
+    };
+    bank.appendChild(div);
+  });
+}
+
+function loadPainter(words, translation){
+  painterWords = words;
+  painterTranslation = translation;
+  renderPainter();
+  setTimeout(applyFont, 50); // reapply font sizes after DOM updates
+}
+
+function getSpd(){ return parseFloat(document.getElementById('spdSlider').value||'0.75'); }
+
+function makeWordSpans(words, isEnglish){
+  // For English — split by spaces, each token gets a span
+  // For Russian — each word object becomes a span, colored by its case
+  if(isEnglish){
+    return (painterTranslation||'').split(/(\s+|[,\.!?;:()\-"'])/).map((tok,i) => {
+      if(!tok || /^\s+$/.test(tok)) return tok;
+      if(/^[,\.!?;:()\-"']+$/.test(tok)) return tok;
+      return `<span class="cp-en-word" data-enidx="${i}">${tok}</span>`;
+    }).join('');
+  } else {
+    let result = '';
+    words.forEach((w,i) => {
+      const sp = i < words.length-1 ? ' ' : '';
+      if(!w.case){
+        result += `<span class="cp-ru-word" data-wdidx="${i}" style="color:#d0d0e0" onclick="cpTapWord(${i})">${w.w}</span>${sp}`;
+      } else {
+        const hidden = !painterToggles.has(w.case);
+        const col = hidden ? '#d0d0e0' : CASES[w.case].color;
+        result += `<span class="cp-ru-word" data-wdidx="${i}" data-case="${w.case}" style="color:${col}" onclick="cpTapWord(${i})">${w.w}</span>${sp}`;
+      }
+    });
+    return result;
+  }
+}
+
+function renderPainter(){
+  // Render cpRuLine/cpEnLine inside the currently selected bank item
+  // Remove any previous inline display
+  document.querySelectorAll('.bank-inline').forEach(el=>el.remove());
+  if(!painterWords.length) return;
+  const sel = document.querySelector('.bank-item.selected');
+  if(!sel) return;
+  const sentSz = window._cpFontSentSize || '20px';
+  const baseSz = window._cpFontSize || '16px';
+  const ruHtml = makeWordSpans(painterWords, false);
+  const enHtml = makeWordSpans(painterWords, true);
+  const wrap = document.createElement('div');
+  wrap.className = 'bank-inline';
+  wrap.style.cssText = 'border-top:1px solid rgba(255,255,255,.08);margin-top:10px;padding-top:10px;';
+  wrap.innerHTML = `<div id="cpRuLine" style="font-size:${sentSz};font-weight:700;line-height:1.8;cursor:pointer;" title="Tap to hear again" onclick="speakSentence(painterWords,painterTranslation)">${ruHtml}</div>
+    <div id="cpEnLine" style="font-size:${baseSz};color:#aaaacc;line-height:1.8;margin-top:6px;">${enHtml}</div>`;
+  sel.appendChild(wrap);
+}
+
+function cpTapWord(idx){
+  const w = painterWords[idx];
+  if(!w) return;
+  clearAllHl();
+  const ruSpans = Array.from(document.querySelectorAll('#cpRuLine .cp-ru-word'));
+  const enSpans = Array.from(document.querySelectorAll('#cpEnLine .cp-en-word'));
+  const rs = ruSpans[idx];
+  if(rs){
+    const ck = rs.dataset.case;
+    const c = ck ? CASES[ck] : null;
+    rs.style.backgroundColor = c ? c.bg : 'rgba(255,255,255,.15)';
+    rs.style.outline = '2px solid '+(c ? c.color : '#fff');
+    rs.style.borderRadius = '4px';
+    rs.style.color = c ? c.color : '#fff';
+    if(enSpans.length){
+      const ratio = ruSpans.length>1 ? idx/(ruSpans.length-1) : 0;
+      const ei = Math.min(Math.round(ratio*(enSpans.length-1)), enSpans.length-1);
+      const es = enSpans[ei];
+      if(es){
+        es.style.backgroundColor = c ? c.bg : 'rgba(255,255,255,.15)';
+        es.style.color = c ? c.color : '#fff';
+        es.style.fontWeight = '800';
+        es.style.borderRadius = '3px';
+        es.style.padding = '0 3px';
+      }
+    }
+    setTimeout(clearAllHl, 1200);
+  }
+  speechSynthesis.cancel();
+  setTimeout(()=>{
+    const u = new SpeechSynthesisUtterance(w.w.replace(/́|̀/g,''));
+    u.lang='ru-RU'; u.rate=getSpd();
+    speechSynthesis.speak(u);
+  }, 50);
+  // Popup on double-tap only - single tap just highlights+speaks
+  // setTimeout(()=>showPopup(idx), 200);
+}
+
+function speakSentence(words, translation){
+  if(!words || !words.length) return;
+  // no flash needed
+  const rate = getSpd();
+  const cleanWords = words.map(w=>w.w.replace(/\u0301|\u0300/g,''));
+  const fullText = cleanWords.join(' ');
+  // ~300ms per word at rate 1.0, scale by rate
+  const WORD_MS = 300/rate;
+  cleanWords.forEach((w,wi)=>{
+    setTimeout(()=>{
+      const ruSpans=Array.from(document.querySelectorAll('#cpRuLine .cp-ru-word'));
+      const enSpans=Array.from(document.querySelectorAll('#cpEnLine .cp-en-word'));
+      ruSpans.forEach(s=>{s.style.backgroundColor='';s.style.outline='';});
+      enSpans.forEach(s=>{s.style.backgroundColor='';s.style.color='';s.style.fontWeight='';});
+      const rs=ruSpans[wi];
+      if(rs){
+        const ck=rs.getAttribute('data-case');
+        const c=ck?CASES[ck]:null;
+        const col=c?c.color:'#fff';
+        const bg=c?c.bg:'rgba(255,255,255,.3)';
+        rs.style.backgroundColor=bg;
+        rs.style.outline='3px solid '+col;
+        rs.style.borderRadius='4px';
+        rs.style.color=col;
+        if(enSpans.length){
+          const ratio=ruSpans.length>1?wi/(ruSpans.length-1):0;
+          const ei=Math.min(Math.round(ratio*(enSpans.length-1)),enSpans.length-1);
+          if(enSpans[ei]){enSpans[ei].style.backgroundColor=bg;enSpans[ei].style.color=col;enSpans[ei].style.fontWeight='900';}
+        }
+      }
+    }, wi*WORD_MS+150);
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('#cpRuLine .cp-ru-word').forEach(s=>{s.style.backgroundColor='';s.style.outline='';});
+    document.querySelectorAll('#cpEnLine .cp-en-word').forEach(s=>{s.style.backgroundColor='';s.style.color='';s.style.fontWeight='';});
+  }, cleanWords.length*WORD_MS+600);
+  speechSynthesis.cancel();
+  setTimeout(()=>{
+    const u=new SpeechSynthesisUtterance(fullText);
+    u.lang='ru-RU';u.rate=rate;
+    speechSynthesis.speak(u);
+  },100);
+}
+
+
+function clearAllHl(){
+  document.querySelectorAll('#cpRuLine .cp-ru-word').forEach(s => {
+    s.style.backgroundColor = '';
+    s.style.outline = '';
+    s.style.borderRadius = '';
+    s.style.color = s.dataset.case && CASES[s.dataset.case] ? CASES[s.dataset.case].color : '#d0d0e0';
+  });
+  document.querySelectorAll('#cpEnLine .cp-en-word').forEach(s => {
+    s.style.backgroundColor = '';
+    s.style.color = '';
+    s.style.fontWeight = '';
+    s.style.borderRadius = '';
+    s.style.padding = '';
+  });
+}
+
+
+
+
+function painterToggleCase(btn){
+  const c = btn.dataset.case;
+  if(painterToggles.has(c)){ painterToggles.delete(c); btn.classList.remove('active'); }
+  else { painterToggles.add(c); btn.classList.add('active'); }
+  painterAllOn = painterToggles.size === 6;
+  document.querySelector('.master-toggle').textContent = painterAllOn ? 'Hide All' : 'Show All';
+  renderPainter();
+}
+
+function painterToggleAll(){
+  if(painterAllOn){
+    painterToggles.clear();
+    document.querySelectorAll('.case-pill').forEach(b=>b.classList.remove('active'));
+    painterAllOn = false;
+    document.querySelector('.master-toggle').textContent = 'Show All';
+  } else {
+    painterToggles = new Set(['NOM','ACC','DAT','GEN','INS','PRE']);
+    document.querySelectorAll('.case-pill').forEach(b=>b.classList.add('active'));
+    painterAllOn = true;
+    document.querySelector('.master-toggle').textContent = 'Hide All';
+  }
+  renderPainter();
+}
+
+// Popup
+function showPopup(idx){
+  const w = painterWords[idx];
+  if(!w) return;
+  const ci = w.case ? CASES[w.case] : null;
+  document.getElementById('popWord').textContent = w.w;
+  document.getElementById('popWord').style.color = ci ? ci.color : 'var(--txt)';
+  if(ci){
+    const b = document.getElementById('popBadge');
+    b.textContent = w.case; b.style.background = ci.bg; b.style.color = ci.color;
+    const cn = document.getElementById('popCaseName');
+    cn.textContent = ci.name; cn.style.color = ci.color;
+  }
+  document.getElementById('popReason').textContent = w.reason;
+  document.getElementById('popStem').textContent = w.stem ? 'Stem: '+w.stem : '';
+  document.getElementById('popupOverlay').classList.add('show');
+}
+function closePopup(e){
+  if(!e || e.target===document.getElementById('popupOverlay'))
+    document.getElementById('popupOverlay').classList.remove('show');
+}
+
+// AI analysis
+async function analyzeCustom(){
+  const sentence = document.getElementById('customInput').value.trim();
+  if(!sentence){ document.getElementById('errorMsg').textContent='Enter a Russian sentence.'; return; }
+  const apiKey = localStorage.getItem('cp_api_key')||document.getElementById('apiKey').value.trim();
+  if(!apiKey){ document.getElementById('errorMsg').textContent='Enter your API key.'; return; }
+  document.getElementById('errorMsg').textContent='';
+  document.getElementById('analyzeBtn').disabled=true;
+  document.querySelectorAll('.bank-item').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('painterDisplay').innerHTML='<div class="loading"><div class="dot-anim"><span></span><span></span><span></span></div>Analyzing...</div>';
+  const prompt=`Analyze this Russian sentence: "${sentence}"\nReturn ONLY valid JSON:\n{"translation":"English translation","words":[{"w":"word","case":"NOM|ACC|DAT|GEN|INS|PRE|null","reason":"one sentence why","stem":"stem info or empty"}]}\nEvery word gets an entry. Verbs/prepositions/conjunctions/adverbs use null for case.`;
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await resp.json();
+    if(data.error)throw new Error(data.error.message);
+    const text=data.content.map(b=>b.text||'').join('').trim().replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+    const parsed=JSON.parse(text);
+    loadPainter(parsed.words, parsed.translation);
+    document.getElementById('customInput').value='';
+  }catch(e){
+    document.getElementById('painterDisplay').innerHTML='<div class="display-placeholder">Error: '+e.message+'</div>';
+    document.getElementById('errorMsg').textContent=e.message;
+  }
+  document.getElementById('analyzeBtn').disabled=false;
+}
+
+// ═══════════════════════════════════════════════════════════════ CHALLENGE
+function buildChallengeUI(){
+  const btns = document.getElementById('caseBtns');
+  btns.innerHTML = '';
+  Object.keys(CASES).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className='case-btn';
+    btn.style.cssText=`border-color:${CASES[c].color};color:${CASES[c].color};background:${CASES[c].bg}`;
+    btn.textContent = CASES[c].name;
+    btn.dataset.case = c;
+    btn.onclick = () => answerChallenge(c);
+    btns.appendChild(btn);
+  });
+  loadChallenge();
+}
+
+function loadChallenge(){
+  answered = false;
+  document.getElementById('nextChallengeBtn').style.display='none';
+  document.querySelectorAll('.case-btn').forEach(b=>{ b.disabled=false; b.style.opacity='1'; b.classList.remove('correct','wrong'); });
+
+  if(challengeIdx >= CHALLENGES.length){ shuffle(CHALLENGES); challengeIdx=0; }
+  const ch = CHALLENGES[challengeIdx];
+  const s = ch.sentence;
+  const target = s.words[ch.wordIdx];
+
+  // Build sentence with blank
+  let html = '';
+  s.words.forEach((w,i) => {
+    const sp = i < s.words.length-1 ? ' ' : '';
+    if(i === ch.wordIdx){
+      html += `<span class="blank" id="challengeBlank">${w.w}</span>${sp}`;
+    } else if(!w.case){
+      html += w.w+sp;
+    } else {
+      html += `<span style="color:${CASES[w.case].color}">${w.w}</span>${sp}`;
+    }
+  });
+  document.getElementById('challengeSentence').innerHTML = html;
+  // Click to hear — speak sentence without blanked word revealed
+  document.getElementById('challengeSentence').style.cursor = 'pointer';
+  document.getElementById('challengeSentence').onclick = function(e){
+    if(e.target.tagName==='BUTTON') return;
+    const ch2=CHALLENGES[challengeIdx]; const s2=ch2.sentence;
+    const fullText=s2.words.map(w=>w.w).join(' ').replace(/[́̀]/g,'');
+    speechSynthesis.cancel();
+    const u2=new SpeechSynthesisUtterance(fullText); u2.lang='ru-RU'; u2.rate=getSpd();
+    speechSynthesis.speak(u2);
+  };
+  document.getElementById('challengeFeedback').textContent = 'What case is the highlighted word?';
+  document.getElementById('challengeFeedback').style.color = 'var(--muted)';
+}
+
+function answerChallenge(chosen){
+  if(answered) return;
+  answered = true;
+  total++;
+  const ch = CHALLENGES[challengeIdx];
+  const target = ch.sentence.words[ch.wordIdx];
+  const correct = target.case;
+
+  document.querySelectorAll('.case-btn').forEach(b=>{ b.disabled=true; });
+  const blank = document.getElementById('challengeBlank');
+
+  if(chosen === correct){
+    score++;
+    blank.classList.add('revealed');
+    blank.style.color = CASES[correct].color;
+    blank.style.borderBottomColor = CASES[correct].color;
+    document.querySelectorAll('.case-btn').forEach(b=>{
+      if(b.dataset.case===correct){ b.classList.add('correct'); }
+      else b.style.opacity='0.3';
+    });
+    document.getElementById('challengeFeedback').style.color = CASES[correct].color;
+    document.getElementById('challengeFeedback').textContent = '✓ Correct! ' + CASES[correct].name + ' — ' + target.reason;
+  } else {
+    blank.classList.add('revealed');
+    blank.style.color = CASES[correct].color;
+    blank.style.borderBottomColor = CASES[correct].color;
+    document.querySelectorAll('.case-btn').forEach(b=>{
+      if(b.dataset.case===correct) b.classList.add('correct');
+      else if(b.dataset.case===chosen){ b.classList.add('wrong'); b.style.opacity='0.4'; }
+      else b.style.opacity='0.3';
+    });
+    document.getElementById('challengeFeedback').style.color = 'var(--nom)';
+    document.getElementById('challengeFeedback').textContent = '✗ It\'s '+CASES[correct].name+' — '+target.reason;
+    caseErrors[correct] = (caseErrors[correct]||0)+1;
+  }
+
+  updateScore();
+  document.getElementById('nextChallengeBtn').style.display='block';
+}
+
+function nextChallenge(){
+  challengeIdx++;
+  loadChallenge();
+}
+
+function resetChallenge(){
+  score=0; total=0; challengeIdx=0; caseErrors={};
+  shuffle(CHALLENGES);
+  updateScore();
+  loadChallenge();
+}
+
+function updateScore(){
+  document.getElementById('scoreVal').textContent = score+' / '+total;
+  const wc = document.getElementById('weakCases');
+  const errors = Object.entries(caseErrors).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  if(!errors.length){ wc.innerHTML='<span style="color:var(--muted);font-size:11px;font-style:italic;">none yet</span>'; return; }
+  wc.innerHTML = errors.map(([c,n])=>`<span class="weak-badge" style="border-color:${CASES[c].color};color:${CASES[c].color};background:${CASES[c].bg}">${CASES[c].name} ×${n}</span>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════ BUILDER
+function buildBuilderSentSel(){
+  const sel = document.getElementById('builderSentSel');
+  SENTENCES.forEach((s,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'map-sent-btn' + (i===0?' on':'');
+    btn.textContent = (i+1)+'. '+s.ru.slice(0,28)+'…';
+    btn.onclick = () => {
+      document.querySelectorAll('#builderSentSel .map-sent-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      loadBuilder(i);
+    };
+    sel.appendChild(btn);
+  });
+}
+
+function loadBuilder(idx){
+  builderSentIdx = idx;
+  const s = SENTENCES[idx];
+  document.getElementById('buildHint').textContent = s.en;
+  builderPool = s.words.map((w,i)=>({...w,idx:i}));
+  builderPlaced = [];
+  renderBuilder();
+  document.getElementById('buildFeedback').textContent = 'Drag the tiles into the correct order, then choose case endings and tap Check.';
+}
+
+function renderBuilder(){
+  const target = document.getElementById('buildTarget');
+  const pool = document.getElementById('tilePool');
+  const s = SENTENCES[builderSentIdx];
+
+  // Pool tiles
+  pool.innerHTML = '';
+  const shuffledPool = [...builderPool];
+  if(builderPlaced.length===0) shuffle(shuffledPool);
+  shuffledPool.forEach(w => {
+    const tile = document.createElement('div');
+    tile.className = 'word-tile';
+    tile.textContent = w.w;
+    tile.draggable = true;
+    tile.dataset.idx = w.idx;
+    tile.ondragstart = e => { e.dataTransfer.setData('text/plain', w.idx); e.dataTransfer.setData('source','pool'); };
+    tile.onclick = () => moveToTarget(w.idx);
+    pool.appendChild(tile);
+  });
+
+  // Target placed words
+  target.innerHTML = '';
+  if(!builderPlaced.length){
+    const dz = document.createElement('div');
+    dz.className='drop-zone'; dz.id='dropZone'; dz.textContent='tap tiles or drag here';
+    target.appendChild(dz);
+  } else {
+    builderPlaced.forEach((w,pi) => {
+      const pw = document.createElement('div');
+      pw.className = 'placed-word';
+      pw.draggable = true;
+      pw.dataset.idx = w.idx;
+      pw.dataset.pos = pi;
+
+      const ru = document.createElement('div');
+      ru.className = 'placed-ru';
+      if(w.case){
+        const cs = document.createElement('select');
+        cs.className='placed-case-sel';
+        cs.innerHTML = '<option value="">case?</option>' + Object.keys(CASES).map(c=>`<option value="${c}">${CASES[c].name}</option>`).join('');
+        if(w.selectedCase) cs.value = w.selectedCase;
+        cs.onchange = e => { builderPlaced[pi].selectedCase = e.target.value; };
+        ru.textContent = w.w + ' ';
+        ru.appendChild(cs);
+      } else {
+        ru.textContent = w.w;
+        ru.style.color = 'var(--muted)';
+      }
+      pw.appendChild(ru);
+
+      // Click to return to pool
+      pw.ondblclick = () => returnToPool(pi);
+      pw.title = 'Double-click to return to pool';
+      target.appendChild(pw);
+    });
+  }
+
+  // Drop on target
+  target.ondragover = e => { e.preventDefault(); target.style.borderColor='var(--pre)'; };
+  target.ondragleave = () => { target.style.borderColor=''; };
+  target.ondrop = e => {
+    e.preventDefault(); target.style.borderColor='';
+    const idx = parseInt(e.dataTransfer.getData('text/plain'));
+    moveToTarget(idx);
+  };
+}
+
+function moveToTarget(wordIdx){
+  const w = builderPool.find(x=>x.idx===wordIdx);
+  if(!w) return;
+  builderPool = builderPool.filter(x=>x.idx!==wordIdx);
+  builderPlaced.push({...w, selectedCase:''});
+  renderBuilder();
+}
+
+function returnToPool(pos){
+  const w = builderPlaced.splice(pos,1)[0];
+  builderPool.push(w);
+  renderBuilder();
+}
+
+function resetBuilder(){ loadBuilder(builderSentIdx); }
+
+function checkBuilder(){
+  const s = SENTENCES[builderSentIdx];
+  const correct = s.words;
+  const fb = document.getElementById('buildFeedback');
+
+  if(builderPlaced.length < correct.length){
+    fb.textContent = 'Place all '+correct.length+' words first.'; fb.style.color='var(--nom)'; return;
+  }
+
+  let issues = [];
+  builderPlaced.forEach((pw,i) => {
+    if(pw.idx !== i){
+      issues.push(`"${pw.w}" should be in position ${i+1}.`);
+    }
+    if(pw.case && pw.selectedCase !== pw.case){
+      const expected = pw.selectedCase ? 'you chose '+CASES[pw.selectedCase].name+' but' : 'you need to choose a case —';
+      issues.push(`"${pw.w}": ${expected} it's ${CASES[pw.case].name}. ${pw.reason}`);
+    }
+  });
+
+  if(!issues.length){
+    fb.style.color='var(--dat)';
+    fb.textContent = '✓ Perfect! All words in the right order with correct cases.';
+  } else {
+    fb.style.color='var(--nom)';
+    fb.textContent = issues[0]; // Show first issue
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════ CASE MAP
+function buildMapSentSel(){
+  const sel = document.getElementById('mapSentSel');
+  SENTENCES.forEach((s,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'map-sent-btn' + (i===0?' on':'');
+    btn.textContent = (i+1)+'. '+s.ru.slice(0,28)+'…';
+    btn.onclick = () => {
+      document.querySelectorAll('#mapSentSel .map-sent-btn').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      loadMap(i);
+    };
+    sel.appendChild(btn);
+  });
+}
+
+function loadMap(idx){
+  mapSentIdx = idx;
+  const s = SENTENCES[idx];
+  const mapSentEl = document.getElementById('mapSentence');
+  mapSentEl.textContent = s.ru;
+  mapSentEl.style.cursor='pointer';
+  mapSentEl.title='Tap to hear';
+  mapSentEl.onclick = function(){
+    const txt=s.ru.replace(/[́̀]/g,'');
+    speechSynthesis.cancel();
+    const u3=new SpeechSynthesisUtterance(txt); u3.lang='ru-RU'; u3.rate=getSpd();
+    speechSynthesis.speak(u3);
+  };
+  document.getElementById('mapInfo').textContent = 'Tap any word or arc to see the grammatical relationship.';
+  renderMap(s);
+}
+
+function renderMap(s){
+  const svg = document.getElementById('mapSvg');
+  const words = s.words.filter(w=>w.case); // only declined words
+  const n = words.length;
+  if(!n){ svg.innerHTML='<text x="350" y="100" fill="#4a4a5a" text-anchor="middle" font-size="14">No declinable words</text>'; return; }
+
+  const W = Math.max(600, n*110+80);
+  const H = 220;
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.innerHTML='';
+
+  const y = 150; // word level
+  const arcY = 60; // arc peak
+  const xStart = 60;
+  const xStep = (W-120)/(n-1||1);
+
+  // Word positions
+  const positions = {};
+  words.forEach((w,i) => {
+    positions[w.w] = {x: xStart + i*xStep, y};
+  });
+
+  // Draw arcs for relations
+  (s.relations||[]).forEach(rel => {
+    const from = positions[rel.from];
+    const to = positions[rel.to];
+    if(!from||!to) return;
+    const cx = (from.x+to.x)/2;
+    const cy = arcY;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    const d = `M ${from.x} ${y-18} Q ${cx} ${cy} ${to.x} ${y-18}`;
+    path.setAttribute('d',d);
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke',rel.color);
+    path.setAttribute('stroke-width','2');
+    path.setAttribute('stroke-dasharray','5,3');
+    path.setAttribute('opacity','0.7');
+    path.style.cursor='pointer';
+    path.onclick = () => {
+      document.getElementById('mapInfo').innerHTML = `<span style="color:${rel.color};font-weight:700">${rel.label.toUpperCase()}</span> — ${rel.from} → ${rel.to}: ${CASES[rel.case].name} case. ${CASES[rel.case].desc}`;
+    };
+    svg.appendChild(path);
+
+    // Arc label
+    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('x',cx);
+    label.setAttribute('y',cy-6);
+    label.setAttribute('text-anchor','middle');
+    label.setAttribute('font-size','10');
+    label.setAttribute('font-family','JetBrains Mono, monospace');
+    label.setAttribute('fill',rel.color);
+    label.setAttribute('opacity','0.85');
+    label.textContent = rel.label;
+    label.style.cursor='pointer';
+    label.onclick = path.onclick;
+    svg.appendChild(label);
+  });
+
+  // Draw words
+  words.forEach((w,i) => {
+    const x = xStart + i*xStep;
+    const ci = CASES[w.case];
+
+    // Background rect
+    const rx = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    const tw = Math.max(w.w.length*9, 60);
+    rx.setAttribute('x',x-tw/2); rx.setAttribute('y',y-16);
+    rx.setAttribute('width',tw); rx.setAttribute('height',30);
+    rx.setAttribute('rx','6'); rx.setAttribute('fill',ci.bg); rx.setAttribute('stroke',ci.color);
+    rx.setAttribute('stroke-width','1.5'); rx.style.cursor='pointer';
+    rx.onclick = () => {
+      document.getElementById('mapInfo').innerHTML = `<span style="color:${ci.color};font-weight:700">${w.w}</span> — ${ci.name}: ${w.reason}`;
+    };
+    svg.appendChild(rx);
+
+    // Word text
+    const txt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x',x); txt.setAttribute('y',y+4);
+    txt.setAttribute('text-anchor','middle');
+    txt.setAttribute('font-size','14'); txt.setAttribute('font-weight','600');
+    txt.setAttribute('font-family','Spectral, serif');
+    txt.setAttribute('fill',ci.color);
+    txt.style.cursor='pointer';
+    txt.textContent=w.w;
+    txt.onclick = rx.onclick;
+    svg.appendChild(txt);
+
+    // Case label below
+    const cl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    cl.setAttribute('x',x); cl.setAttribute('y',y+28);
+    cl.setAttribute('text-anchor','middle');
+    cl.setAttribute('font-size','9'); cl.setAttribute('font-family','JetBrains Mono, monospace');
+    cl.setAttribute('fill',ci.color); cl.setAttribute('opacity','0.7');
+    cl.textContent=w.case;
+    svg.appendChild(cl);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════ UTILS
+function showToast(msg){
+  const t=document.createElement('div');
+  t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},1800);
+}
+
+// Font size cycle: normal → large → xlarge → normal
+const FONT_SCALES = [
+  {label:'A',   size:'16px', sentSize:'20px'},
+  {label:'A+',  size:'19px', sentSize:'24px'},
+  {label:'A++', size:'22px', sentSize:'28px'},
+];
+let fontIdx = parseInt(localStorage.getItem('cp_font')||'0');
+
+function cycleFont(){
+  fontIdx = (fontIdx+1) % FONT_SCALES.length;
+  applyFont();
+  localStorage.setItem('cp_font', fontIdx);
+}
+
+function applyFont(){
+  const f = FONT_SCALES[fontIdx];
+  // Apply to all panels
+  document.querySelectorAll('.pn').forEach(el => { el.style.fontSize = f.size; });
+  // Apply to sentence displays specifically
+  document.querySelectorAll('.sentence-display,.challenge-sentence,.map-sentence').forEach(el => {
+    el.style.fontSize = f.sentSize;
+  });
+  // Apply to bank items
+  document.querySelectorAll('.bank-ru').forEach(el => { el.style.fontSize = f.size; });
+  // Apply to word tiles in builder
+  document.querySelectorAll('.word-tile,.placed-ru').forEach(el => { el.style.fontSize = f.size; });
+  // Update button
+  const btn = document.getElementById('fontBtn');
+  if(btn) btn.textContent = f.label;
+  // Store for renderPainter to use
+  window._cpFontSentSize = f.sentSize;
+  window._cpFontSize = f.size;
+}
+</script>
+</body>
+</html>
